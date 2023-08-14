@@ -1,5 +1,6 @@
 from flask import Flask, request, Response
 from BudgetInterestCode import standard_budget, custom_budget, essential_expenses, interest
+from moneyPersonalitiesCode import money_personality
 from flask_restful import abort
 
 
@@ -103,6 +104,13 @@ def essential_limit():
             "Remaining left of essential needs budget": result[2]
         }
 
+@app.route('/my-money-personality/<given_responses>', methods=['GET'])
+def processing_money_personality(given_responses):
+    if request.method == 'GET':
+        if len(given_responses) < 13:
+            return Response('Responses are incomplete!', 400)
+        else:
+            return money_personality(given_responses)
 
 if __name__ == "__main__":
     app.run(debug=True)
